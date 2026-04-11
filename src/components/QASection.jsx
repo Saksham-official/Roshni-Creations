@@ -30,6 +30,18 @@ const QASection = () => {
       icon: '💎',
       title: 'xCLusive Loyalty',
       description: 'Earn points on every purchase and unlock exclusive access to VIP collections.'
+    },
+    {
+      id: 5,
+      icon: '✨',
+      title: 'Lifetime Exchange',
+      description: 'Zero deduction on lifetime exchange of gold and diamonds. Your legacy retains its absolute value.'
+    },
+    {
+      id: 6,
+      icon: '📜',
+      title: 'Certified Purity',
+      description: 'Every piece is accompanied by a trusted hallmark certificate ensuring absolute authenticity and purity.'
     }
   ];
 
