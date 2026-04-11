@@ -1,0 +1,122 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: var(--nav-height);
+  overflow: hidden;
+  background: radial-gradient(circle at center right, #FCF8EE 0%, var(--bg-white) 70%);
+}
+
+.hero-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5%;
+  width: 100%;
+}
+
+.hero-text {
+  flex: 1;
+  max-width: 600px;
+  z-index: 2;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: var(--primary-gold-light);
+  color: var(--brand-maroon);
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+.hero-title {
+  font-size: 4.8rem;
+  line-height: 1.05;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+  font-family: var(--font-serif);
+}
+
+.hero-description {
+  color: var(--text-secondary);
+  font-size: 1.25rem;
+  margin-bottom: 3rem;
+  max-width: 500px;
+  line-height: 1.5;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.hero-image-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-presentation {
+  position: relative;
+  max-width: 480px;
+  width: 100%;
+}
+
+.hero-image {
+  width: 100%;
+  border-radius: var(--border-radius);
+  display: block;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08); /* Soft apple shadow */
+  transition: transform var(--transition-slow);
+}
+
+.hero-presentation:hover .hero-image {
+  transform: scale(1.02);
+}
+
+.hero-card-info {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05); /* Softer shadow */
+}
+
+.hero-card-info h4 {
+  color: var(--text-primary);
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+@media (max-width: 968px) {
+  .hero-content {
+    flex-direction: column;
+    text-align: center;
+    padding-top: 4rem;
+    gap: 4rem;
+  }
+  .hero-text {
+    margin: 0 auto;
+  }
+  .hero-description {
+    margin: 0 auto 3rem;
+  }
+  .hero-cta {
+    justify-content: center;
+  }
+  .hero-title {
+    font-size: 3.5rem;
+  }
+  .hero-card-info {
+    right: 10px;
+    bottom: -10px;
+  }
+}

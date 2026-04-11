@@ -1,0 +1,241 @@
+.navbar-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: all var(--transition-smooth);
+}
+
+.utility-bar {
+  background-color: var(--brand-maroon);
+  color: white;
+  font-size: 0.8rem;
+  padding: 0.5rem 0;
+  transition: margin-top var(--transition-smooth);
+}
+
+.navbar-wrapper.scrolled .utility-bar {
+  margin-top: -30px; /* Hide utility bar when scrolled */
+}
+
+.utility-content {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2rem;
+}
+
+.utility-content span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+}
+
+.navbar {
+  width: 100%;
+  height: var(--nav-height);
+  transition: background-color var(--transition-smooth), backdrop-filter var(--transition-smooth), border var(--transition-smooth);
+  background-color: var(--bg-white);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.navbar-wrapper.scrolled .navbar {
+  background-color: var(--surface-glass);
+}
+
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.nav-logo-image {
+  height: 38px;
+  object-fit: contain;
+}
+
+.logo-text {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  margin: 0;
+  cursor: pointer;
+  color: var(--brand-maroon);
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.logo-text span {
+  color: var(--primary-gold-dark);
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 3rem;
+}
+
+.nav-links li {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  position: relative;
+  color: var(--text-primary);
+}
+
+.nav-links li:hover {
+  color: var(--primary-gold-dark);
+}
+
+/* Subtle Apple-like underline interaction */
+.nav-links li::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background: var(--primary-gold-dark);
+  transition: width var(--transition-smooth), left var(--transition-smooth);
+}
+
+.nav-links li:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.icon-btn {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 50px;
+  color: var(--text-primary);
+  background: transparent;
+  font-family: var(--font-sans);
+}
+
+.icon-btn:hover {
+  color: var(--primary-gold-dark);
+  transform: scale(1.05);
+}
+
+.icon-btn svg {
+  width: 22px;
+  height: 22px;
+  transition: stroke var(--transition-fast);
+}
+
+.search-text {
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1002;
+}
+
+.hamburger-line {
+  width: 100%;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.hamburger-line.open:first-child {
+  transform: translateY(4px) rotate(45deg);
+}
+
+.hamburger-line.open:last-child {
+  transform: translateY(-4px) rotate(-45deg);
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+  .nav-links {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: flex;
+  }
+  
+  .hide-mobile {
+    display: none !important;
+  }
+  
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: 280px;
+    background: var(--bg-white);
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 6rem 2rem;
+    gap: 2.5rem;
+    transition: right 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 1001;
+    box-shadow: -10px 0 40px rgba(0,0,0,0.08);
+  }
+  
+  .nav-links.mobile-open {
+    right: 0;
+  }
+  
+  .nav-links li {
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+  
+  .mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    opacity: 0;
+    animation: fadeIn 0.3s forwards;
+  }
+  
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+}
