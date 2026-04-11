@@ -13,7 +13,7 @@ const loadRazorpayScript = () => {
   });
 };
 
-const ProductDetail = ({ product, onNavigate, logo }) => {
+const ProductDetail = ({ product, onNavigate, logo, onAddToCart }) => {
   const [activeImage, setActiveImage] = useState(0);
   const containerRef = useRef(null);
 
@@ -104,7 +104,7 @@ const ProductDetail = ({ product, onNavigate, logo }) => {
           </p>
 
           <div className="action-buttons info-animate">
-            <button className="btn btn-outline btn-large">✦ Try at Home Free</button>
+            <button className="btn btn-outline btn-large" onClick={() => onAddToCart && onAddToCart(product)}>Add to Cart</button>
             <button className="btn btn-primary btn-large" onClick={handlePayment}>Buy Now</button>
           </div>
 

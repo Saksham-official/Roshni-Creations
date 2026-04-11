@@ -37,9 +37,29 @@ app.get('/api/health', (req, res) => {
 
 app.get('/api/products', async (req, res) => {
     try {
-        const products = await Product.find({});
-        res.json({ products });
+        let products = await Product.find({});
+        let logo = "https://i.imgur.com/3g7nmJC.png";
+
+        if (products.length === 0) {
+            console.log('Database is empty, seeding from JSON...');
+            try {
+                // Seed DB from JSON if empty
+                const jsonResponse = await fetch('https://raw.githubusercontent.com/SatyawanPanchal/roshni_creations_assets_ssh01/refs/heads/main/products.json');
+                const data = await jsonResponse.json();
+                if (data && data.products && data.products.length > 0) {
+                    await Product.insertMany(data.products);
+                    products = await Product.find({});
+                    if (data.logo) {
+                        logo = data.logo;
+                    }
+                }
+            } catch (seedErr) {
+                console.error('Failed to seed DB from JSON:', seedErr);
+            }
+        }
+        res.json({ products, logo });
     } catch (err) {
+        console.error('API Error:', err);
         res.status(500).json({ error: 'Failed to fetch products' });
     }
 });

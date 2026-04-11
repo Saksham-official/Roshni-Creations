@@ -2,7 +2,7 @@ import React from 'react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import './ProductCard.css';
 
-const ProductCard = ({ product, index = 0, onClick }) => {
+const ProductCard = ({ product, index = 0, onClick, onAddToCart }) => {
   const cardRef = useScrollReveal({ threshold: 0.1, persist: true });
 
   // Simulate CaratLane style pricing
@@ -33,7 +33,7 @@ const ProductCard = ({ product, index = 0, onClick }) => {
 
         <div className="product-overlay">
           <button className="btn btn-outline btn-sm" onClick={(e) => e.stopPropagation()}>Try at Home Free</button>
-          <button className="btn btn-primary btn-sm" onClick={(e) => e.stopPropagation()}>Add to Cart</button>
+          <button className="btn btn-primary btn-sm" onClick={(e) => { e.stopPropagation(); onAddToCart && onAddToCart(product); }}>Add to Cart</button>
         </div>
       </div>
       <div className="product-info">

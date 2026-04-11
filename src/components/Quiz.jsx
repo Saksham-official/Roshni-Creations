@@ -3,7 +3,7 @@ import { useScrollReveal } from '../hooks/useScrollReveal';
 import './Quiz.css';
 import ProductCard from './ProductCard';
 
-const Quiz = ({ products, onNavigate }) => {
+const Quiz = ({ products, onNavigate, onAddToCart }) => {
   const [step, setStep] = useState(1);
   const [answers, setAnswers] = useState({});
   const [recommendedProduct, setRecommendedProduct] = useState(null);
@@ -81,10 +81,10 @@ const Quiz = ({ products, onNavigate }) => {
               <h2 className="section-title">Your Perfect Match</h2>
               <p className="section-subtitle">Based on your choices, we highly recommend this stunning piece.</p>
               <div className="recommended-card-wrapper">
-                <ProductCard product={recommendedProduct} />
+                <ProductCard product={recommendedProduct} onAddToCart={onAddToCart} onClick={() => onNavigate('product', { productId: recommendedProduct.id })} />
               </div>
               <div className="quiz-actions">
-                <button className="btn btn-primary" onClick={() => onNavigate('shop')}>Add to Cart</button>
+                <button className="btn btn-primary" onClick={() => { onAddToCart && onAddToCart(recommendedProduct); onNavigate('shop'); }}>Add to Cart & Continue</button>
                 <button className="btn btn-outline" onClick={() => { setStep(1); setRecommendedProduct(null); }}>Retake Quiz</button>
               </div>
             </div>
