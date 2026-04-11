@@ -23,6 +23,7 @@
   justify-content: space-between;
   align-items: center;
   height: 100%;
+  width: 100%;
   /* No extra padding here, uses .container padding */
 }
 
@@ -31,7 +32,7 @@
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  flex-shrink: 0;
+  flex: 1;
   /* Ensuring exact vertical symmetry */
   height: 100%;
 }
@@ -60,13 +61,15 @@
   list-style: none;
   gap: 22px;
   align-items: center;
+  justify-content: center;
   margin: 0;
   padding: 0;
+  flex: none;
 }
 
 .nav-links li {
   font-family: var(--font-sans);
-  font-size: 11px;
+  font-size: 13px; /* Slightly larger for better readability, Apple style */
   font-weight: 400;
   letter-spacing: -0.01em;
   color: #1d1d1f;
@@ -83,8 +86,9 @@
 .nav-actions {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 18px;
-  margin-left: 24px;
+  flex: 1;
 }
 
 .icon-btn {
