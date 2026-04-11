@@ -1,0 +1,209 @@
+.product-card {
+  border-radius: var(--border-radius);
+  background-color: var(--bg-white);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-smooth), box-shadow var(--transition-smooth), opacity var(--transition-slow);
+  border: 1px solid rgba(0,0,0,0.03);
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+}
+
+.product-image-container {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background-color: var(--bg-light);
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply; /* Helps white background images blend */
+  transition: transform var(--transition-slow);
+  padding: 1rem;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.08); /* Apple-style subtle zoom */
+}
+
+.badges-container {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 2;
+}
+
+.badge {
+  background: var(--bg-white);
+  color: var(--brand-maroon);
+  padding: 0.35rem 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.badge-discount {
+  background: #E8DDFA; /* CaratLane lilac aesthetic */
+  color: #633CA3;
+}
+
+.virtual-try-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--bg-white);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  color: var(--text-primary);
+  cursor: pointer;
+  z-index: 2;
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+.virtual-try-btn:hover {
+  transform: scale(1.1);
+  color: #633CA3;
+}
+
+.virtual-try-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.product-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem 1rem;
+  background: linear-gradient(transparent, rgba(255,255,255,0.98) 40%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transform: translateY(100%);
+  transition: transform var(--transition-smooth);
+  z-index: 3;
+}
+
+.product-card:hover .product-overlay {
+  transform: translateY(0);
+}
+
+.btn-sm {
+  padding: 0.6rem 2rem;
+  font-size: 0.85rem;
+  width: 100%;
+  border-radius: 8px; /* Slightly softer for modern look */
+}
+
+.product-info {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.product-category-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.product-category {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.delivery-badge {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #2F9460; /* Trusted Green for fast delivery */
+  background: #E8F8EE;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.product-name {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  flex: 1;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.product-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.product-price {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.product-original-price {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-decoration: line-through;
+  font-weight: 400;
+}
+
+.product-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px dashed rgba(0,0,0,0.08);
+}
+
+.product-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.star {
+  color: var(--primary-gold);
+}
+
+.try-home-text {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #633CA3;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.try-home-text:hover {
+  text-decoration: underline;
+}

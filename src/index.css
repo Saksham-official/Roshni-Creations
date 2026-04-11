@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap');
+
+:root {
+  /* Premium Brand Colors */
+  --primary-gold: #D1B88A;
+  --primary-gold-dark: #B48737;
+  --primary-gold-light: rgba(209, 184, 138, 0.15);
+  --brand-maroon: #2C2C2C; /* Dark sophisticated charcoal */
+  --bg-light: #FAFAFA;
+  --bg-white: #FFFFFF;
+  --surface-glass: rgba(255, 255, 255, 0.9);
+  
+  /* Typography Colors */
+  --text-primary: #333333;
+  --text-secondary: #888888;
+  --text-light: #FFFFFF;
+  
+  /* Typography */
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans: 'Outfit', sans-serif;
+  
+  /* Layout & Smoothness */
+  --nav-height: 70px;
+  --border-radius: 16px;
+  
+  /* Apple Signature Bezier Curves for Butter Smoothness */
+  --transition-fast: 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+  --transition-smooth: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  --transition-slow: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-light);
+  color: var(--text-primary);
+  line-height: 1.5;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  color: var(--brand-maroon);
+  letter-spacing: -0.02em;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: all var(--transition-fast);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  transition: all var(--transition-fast);
+}
+
+/* Utilities */
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 5%;
+}
+
+.text-gold { color: var(--primary-gold); }
+.text-maroon { color: var(--brand-maroon); }
+
+/* Glassmorphism (Apple Style Blur) */
+.glass {
+  background: var(--surface-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Base button */
+.btn {
+  display: inline-block;
+  padding: 0.9rem 2.2rem;
+  border-radius: 50px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  transition: transform var(--transition-smooth), box-shadow var(--transition-smooth), background-color var(--transition-fast);
+}
+
+.btn-primary {
+  background-color: var(--brand-maroon);
+  color: var(--text-light);
+}
+.btn-primary:hover {
+  background-color: #4A1D21;
+  transform: scale(1.02);
+  box-shadow: 0 8px 20px rgba(94, 38, 42, 0.2);
+}
+
+.btn-outline {
+  border: 1px solid var(--primary-gold);
+  color: var(--primary-gold);
+}
+.btn-outline:hover {
+  background-color: var(--primary-gold);
+  color: var(--text-light);
+  transform: scale(1.02);
+}
+
+/* Section */
+.section {
+  padding: 7rem 0;
+  position: relative;
+  background-color: var(--bg-white);
+}
+
+.section-tint {
+  background-color: var(--bg-light);
+}
+
+.section-title {
+  text-align: center;
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1.15rem;
+  max-width: 650px;
+  margin: 0 auto 4rem;
+  font-weight: 400;
+}
+
+/* ----- Apple-style Scroll Reveal CSS ----- */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity var(--transition-slow), transform var(--transition-slow);
+  will-change: opacity, transform;
+}
+
+.reveal-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger reveals */
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* Keyframes for immediate loads */
+@keyframes fadeUpSmooth {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeUpSmooth 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-white);
+}
+::-webkit-scrollbar-thumb {
+  background: #D1D1D6;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A1A1A6;
+}

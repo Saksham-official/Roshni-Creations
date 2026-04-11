@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500&display=swap');
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100vh;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 15vh;
+}
+
+.search-modal {
+  width: 90%;
+  max-width: 850px;
+  border-radius: 24px;
+  padding: 4rem;
+  position: relative;
+  background: #ffffff;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.02);
+}
+
+.close-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  font-size: 2.5rem;
+  color: #a0a0a0;
+  line-height: 1;
+  font-weight: 300;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #222;
+  transform: rotate(90deg);
+}
+
+.search-header {
+  text-align: center;
+}
+
+.elegant-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.5rem;
+  font-weight: 500;
+  color: #2c2c2c;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.elegant-subtitle {
+  font-family: 'Outfit', sans-serif;
+  color: #888;
+  font-size: 1.1rem;
+  font-weight: 300;
+  margin-bottom: 3rem;
+  letter-spacing: 0.05em;
+}
+
+.search-input-wrapper {
+  position: relative;
+  margin-top: 2.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-input-wrapper input {
+  width: 100%;
+  padding: 1.25rem 1.5rem 1.25rem 3.5rem;
+  font-size: 1.15rem;
+  background: #fafafa;
+  border: 1px solid #eaeaea;
+  border-radius: 50px;
+  color: #333;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  transition: all 0.4s ease;
+}
+
+.search-input-wrapper input:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: #d1b88a;
+  box-shadow: 0 10px 30px rgba(209, 184, 138, 0.15);
+}
+
+.search-icon {
+  position: absolute;
+  left: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #aaa;
+}
+
+.search-results {
+  margin-top: 3.5rem;
+  min-height: 200px;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.search-item {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid transparent;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  cursor: pointer;
+}
+
+.search-item:hover {
+  background: #fdfcfb;
+  border: 1px solid #f0e6d2;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+}
+
+.search-item img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #fafafa;
+  padding: 5px;
+}
+
+.search-item h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+  color: #333;
+  font-weight: 400;
+}
+
+.text-gold-light {
+  font-family: 'Outfit', sans-serif;
+  color: #b48737;
+  font-weight: 300;
+  font-size: 0.95rem;
+}
+
+.no-results {
+  text-align: center;
+  color: #888;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 300;
+  padding: 2rem 0;
+}
+
+.popular-searches p {
+  color: #888;
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+  font-family: 'Outfit', sans-serif;
+  text-align: center;
+}
+
+.popular-tags {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.popular-tags span {
+  padding: 0.6rem 1.5rem;
+  border: 1px solid #eaeaea;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  color: #555;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.popular-tags span:hover {
+  border-color: #d1b88a;
+  color: #b48737;
+  background: #fffdf9;
+  transform: translateY(-2px);
+}
