@@ -44,5 +44,11 @@ app.get('/api/products', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Backend server running on port ${PORT}`));
+// Export for Serverless Deployment (Vercel)
+module.exports = app;
+
+// Only start the server locally if not in Vercel environment
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => console.log(`🚀 Backend server running on port ${PORT}`));
+}
