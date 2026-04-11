@@ -64,8 +64,10 @@ const App = () => {
 
   return (
     <div className="app">
+      {/* Premium Entrance Preloader */}
       {showIntro && <IntroPreloader onComplete={() => setShowIntro(false)} />}
       
+      {/* Site Content with synchronization state */}
       <div className={showIntro ? 'site-content-hidden' : 'site-content-visible'}>
         <Navbar 
           onNavigate={handleNavigate} 
