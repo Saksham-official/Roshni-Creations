@@ -2,17 +2,8 @@ import React, { useState, useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { useCart } from '../context/CartContext';
+import { initiatePayment } from '../utils/payment';
 import './ProductDetail.css';
-
-const loadRazorpayScript = () => {
-  return new Promise((resolve) => {
-    const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.onload = () => resolve(true);
-    script.onerror = () => resolve(false);
-    document.body.appendChild(script);
-  });
-};
 
 const ProductDetail = ({ product, onNavigate, logo }) => {
   const [activeImage, setActiveImage] = useState(0);
@@ -32,54 +23,13 @@ const ProductDetail = ({ product, onNavigate, logo }) => {
     );
   }, [product]);
 
-  const handlePayment = async () => {
-    const res = await loadRazorpayScript();
-
-    if (!res) {
-      alert("Razorpay SDK failed to load. Are you online?");
-      return;
-    }
-
-    const options = {
-      key: "rzp_test_Sc7NXcTnAZCMkn", // Test Key ID provided
-      amount: product.price * 100, // Amount is in currency subunits (paise)
-      currency: "INR",
-      name: "Roshni Creations",
+  const handlePayment = () => {
+    initiatePayment({
+      amount: product.price,
       description: `Purchase ${product.name}`,
-      image: logo || "https://i.imgur.com/3g7nmJC.png", // Use actual logo
-      handler: async function (response) {
-        alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
-        
-        // Send Email Confirmation via Resend API (through our backend)
-        try {
-          await fetch('/api/send-confirmation', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              email: 'judge@hackathon.com', // Pre-filled for demo
-              paymentId: response.razorpay_payment_id,
-              orderDetails: {
-                name: product.name,
-                price: product.price
-              }
-            })
-          });
-        } catch (err) {
-          console.error('Failed to send auto-confirmation email:', err);
-        }
-      },
-      prefill: {
-        name: "Hackathon Judge",
-        email: "judge@hackathon.com",
-        contact: "9999999999",
-      },
-      theme: {
-        color: "#D1B88A", // Match the elegant gold theme
-      },
-    };
-
-    const paymentObject = new window.Razorpay(options);
-    paymentObject.open();
+      items: [product.name],
+      onSuccess: () => onNavigate('shop')
+    });
   };
 
   if (!product) return null;

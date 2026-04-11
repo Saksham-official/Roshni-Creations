@@ -196,6 +196,51 @@
   color: var(--primary-gold);
 }
 
+.product-card-actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 1.25rem;
+}
+
+.quick-add-btn {
+  flex: 1;
+  background: white;
+  border: 1.5px solid var(--primary-gold);
+  color: var(--primary-gold);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.6rem 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quick-add-btn:hover {
+  background: var(--primary-gold-light);
+  transform: scale(1.02);
+}
+
+.quick-pay-btn {
+  flex: 1.5;
+  background: #0071e3; /* Apple Blue for quick buy */
+  color: white;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.85rem;
+  padding: 0.6rem 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 113, 227, 0.2);
+}
+
+.quick-pay-btn:hover {
+  background: #0077ed;
+  transform: scale(1.02);
+  box-shadow: 0 6px 15px rgba(0, 113, 227, 0.3);
+}
+
 .try-home-text {
   font-size: 0.8rem;
   font-weight: 500;

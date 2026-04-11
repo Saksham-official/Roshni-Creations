@@ -1,16 +1,7 @@
 import React, { useEffect } from 'react';
 import { useCart } from '../context/CartContext';
+import { initiatePayment } from '../utils/payment';
 import './CartSidebar.css';
-
-const loadRazorpayScript = () => {
-    return new Promise((resolve) => {
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
-      document.body.appendChild(script);
-    });
-};
 
 const CartSidebar = () => {
     const { cart, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart, getCartTotal, clearCart } = useCart();
@@ -25,55 +16,18 @@ const CartSidebar = () => {
         return () => document.body.style.overflow = 'unset';
     }, [isCartOpen]);
 
-    const handleCheckout = async () => {
+    const handleCheckout = () => {
         if (cart.length === 0) return;
 
-        const res = await loadRazorpayScript();
-        if (!res) {
-          alert("Payment gateway failed to load.");
-          return;
-        }
-
-        const options = {
-          key: "rzp_test_Sc7NXcTnAZCMkn",
-          amount: getCartTotal() * 100,
-          currency: "INR",
-          name: "Roshni Creations",
-          description: `Bulk Purchase of ${cart.length} items`,
-          image: "https://i.imgur.com/3g7nmJC.png",
-          handler: async function (response) {
-            // Trigger Confirmation Email
-            try {
-              await fetch('/api/send-confirmation', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  email: 'judge@hackathon.com',
-                  paymentId: response.razorpay_payment_id,
-                  orderDetails: {
-                    items: cart.map(item => `${item.name} (x${item.quantity})`),
-                    price: getCartTotal()
-                  }
-                })
-              });
-            } catch (err) {
-              console.error('Email failed');
+        initiatePayment({
+            amount: getCartTotal(),
+            description: `Bulk Purchase of ${cart.length} items`,
+            items: cart.map(item => `${item.name} (x${item.quantity})`),
+            onSuccess: () => {
+                clearCart();
+                setIsCartOpen(false);
             }
-
-            alert(`Order Placed! ID: ${response.razorpay_payment_id}`);
-            clearCart();
-            setIsCartOpen(false);
-          },
-          prefill: {
-            name: "Hackathon Judge",
-            email: "judge@hackathon.com",
-            contact: "9999999999",
-          },
-          theme: { color: "#D1B88A" },
-        };
-
-        const paymentObject = new window.Razorpay(options);
-        paymentObject.open();
+        });
     };
 
     return (
