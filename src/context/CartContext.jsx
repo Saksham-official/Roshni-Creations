@@ -24,6 +24,16 @@ export const CartProvider = ({ children }) => {
       return [...prevCart, { ...product, quantity }];
     });
     setIsCartOpen(true);
+
+    // Track addition with Email via Resend
+    fetch('/api/cart-notification', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            email: 'judge@hackathon.com', // Pre-filled for demo
+            productName: product.name
+        })
+    }).catch(console.error);
   };
 
   const removeFromCart = (id) => {

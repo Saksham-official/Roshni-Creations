@@ -51,10 +51,11 @@ app.post('/api/send-confirmation', async (req, res) => {
                 <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
                     <h1 style="color: #2C2C2C; border-bottom: 2px solid #D1B88A; padding-bottom: 10px;">Order Confirmation</h1>
                     <p>Thank you for your purchase from <strong>Roshni Creations</strong>!</p>
-                    <p>Your order for <strong>${orderDetails.name}</strong> has been successfully placed.</p>
+                    <p>Your order has been successfully placed.</p>
                     <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
                         <p style="margin: 0;"><strong>Payment ID:</strong> ${paymentId}</p>
-                        <p style="margin: 5px 0 0 0;"><strong>Amount Paid:</strong> ₹${orderDetails.price.toLocaleString('en-IN')}</p>
+                        <p style="margin: 10px 0;"><strong>Items:</strong> ${Array.isArray(orderDetails.items) ? orderDetails.items.join(', ') : orderDetails.name}</p>
+                        <p style="margin: 0;"><strong>Total Paid:</strong> ₹${orderDetails.price.toLocaleString('en-IN')}</p>
                     </div>
                     <p>We are preparing your handcrafted masterpiece for shipment. You will receive a tracking link shortly.</p>
                     <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;" />
@@ -65,6 +66,31 @@ app.post('/api/send-confirmation', async (req, res) => {
         res.status(200).json({ success: true, data });
     } catch (error) {
         console.error('Email Error:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// "Added to Cart" Notification Route
+app.post('/api/cart-notification', async (req, res) => {
+    const { email, productName } = req.body;
+    try {
+        await resend.emails.send({
+            from: 'Roshni Creations <onboarding@resend.dev>',
+            to: [email || 'delivered@resend.dev'],
+            subject: 'Item Added to Your Cart',
+            html: `
+                <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+                    <h2 style="color: #2C2C2C;">Item Added to Cart! 💎</h2>
+                    <p>Great choice! You just added <strong>${productName}</strong> to your bag.</p>
+                    <p>Don't wait too long—our handcrafted signature pieces are in high demand.</p>
+                    <div style="margin-top: 20px; text-align: center;">
+                        <a href="https://roshni-creations.vercel.app" style="background: #2C2C2C; color: white; padding: 12px 25px; text-decoration: none; border-radius: 50px;">Complete Your Purchase</a>
+                    </div>
+                </div>
+            `
+        });
+        res.status(200).json({ success: true });
+    } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }
 });
