@@ -84,7 +84,7 @@ const App = () => {
               <section className="section" style={{backgroundColor: 'var(--bg-white)'}}>
                 <div className="container">
                   <div className="animate-fade-in">
-                    <h2 className="section-title" style={{fontFamily: 'var(--font-serif)', fontSize: '3.5rem', color: 'var(--primary-gold-dark)'}}>Our Best Sellers</h2>
+                    <h2 className="section-title" style={{fontFamily: 'var(--font-serif)', fontSize: '3.5rem', color: '#D4AF37'}}>Our Best Sellers</h2>
                     <p className="section-subtitle">Discover our most loved and frequently purchased exquisite pieces.</p>
                   </div>
                   <div style={{
