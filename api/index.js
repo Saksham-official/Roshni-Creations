@@ -10,17 +10,43 @@ const resend = new Resend(process.env.RESEND_API_KEY || 're_M6AXt63M_6197cGKf1DD
 app.use(cors({ origin: '*' }));
 app.use(express.json());
 
-// ✅ Explicit DB name in URI — this is what was missing!
-const MONGO_URI = process.env.MONGODB_URI ||
-  "mongodb+srv://parv240385_db_user:malikji0002@cluster0.h0r1tl3.mongodb.net/roshni_creations?retryWrites=true&w=majority&appName=Cluster0";
+// ✅ Use the user-provided connection string properly
+let MONGO_URI = process.env.MONGODB_URI || 
+  "mongodb+srv://parv240385_db_user:malikji0002@cluster0.h0r1tl3.mongodb.net/?appName=Cluster0";
 
-// ✅ Lazy connection — reuses across warm invocations, safe for serverless
-let isConnected = false;
+// Ensure the database name is included in the URI
+if (MONGO_URI.includes('.mongodb.net/') && !MONGO_URI.split('.mongodb.net/')[1].startsWith('roshni_creations')) {
+  // If it ends with /? or / then insert the db name
+  if (MONGO_URI.includes('.mongodb.net/?')) {
+    MONGO_URI = MONGO_URI.replace('.mongodb.net/?', '.mongodb.net/roshni_creations?');
+  } else if (MONGO_URI.endsWith('.mongodb.net/')) {
+    MONGO_URI += 'roshni_creations';
+  } else if (!MONGO_URI.includes('.mongodb.net/')) {
+     // fallback if URI structure is unexpected but contains the cluster name
+  }
+}
+
+// ✅ Enhanced Lazy connection for Serverless (prevents multiple context connections)
+let cachedConnection = null;
+
 const connectDB = async () => {
-  if (isConnected) return;
-  await mongoose.connect(MONGO_URI);
-  isConnected = true;
-  console.log('✅ MongoDB connected to roshni_creations');
+  if (cachedConnection) {
+    // Check if the connection is still open
+    if (mongoose.connection.readyState === 1) return;
+    cachedConnection = null; // Reset if connection dropped
+  }
+
+  console.log('⏳ Connecting to MongoDB...');
+  try {
+    cachedConnection = await mongoose.connect(MONGO_URI, {
+      bufferCommands: true,
+      serverSelectionTimeoutMS: 5000,
+    });
+    console.log('✅ MongoDB connected to roshni_creations');
+  } catch (err) {
+    console.error('❌ MongoDB connection error:', err);
+    throw err;
+  }
 };
 
 // Schemas

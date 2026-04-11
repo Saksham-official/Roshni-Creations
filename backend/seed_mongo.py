@@ -3,7 +3,7 @@ from pymongo import MongoClient
 import os
 
 def seed():
-    url = "mongodb+srv://parv240385_db_user:malikji0002@cluster0.h0r1tl3.mongodb.net/?appName=Cluster0zz"
+    url = "mongodb+srv://parv240385_db_user:malikji0002@cluster0.h0r1tl3.mongodb.net/roshni_creations?appName=Cluster0"
     print("Connecting to MongoDB...")
     try:
         client = MongoClient(url, serverSelectionTimeoutMS=5000)
