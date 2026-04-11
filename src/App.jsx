@@ -53,7 +53,7 @@ const App = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const categories = ['All', 'Choker', 'Necklace', 'Mangalsutra', 'Watch'];
+  const categories = ['All', 'Choker', 'Necklace', 'Mangalsutra', 'Watch', 'Earrings', 'Rings', 'Bangles', 'Pendants', 'Bracelets'];
   const filteredProducts = selectedCategory === 'All' 
     ? products 
     : products.filter(p => p.category.toLowerCase().includes(selectedCategory.toLowerCase()));
@@ -93,7 +93,7 @@ const App = () => {
                     gap: '2.5rem',
                     marginTop: '4rem'
                   }}>
-                    {products.filter(p => p.isFeatured).slice(0, 4).map((product, idx) => (
+                    {products.filter(p => p.isFeatured).slice(0, 8).map((product, idx) => (
                       <ProductCard 
                         key={product.id} 
                         product={product} 

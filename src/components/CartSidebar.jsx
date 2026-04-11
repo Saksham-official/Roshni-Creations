@@ -59,7 +59,7 @@ const CartSidebar = ({ onNavigate }) => {
                         </div>
                     ) : (
                         cart.map((item) => (
-                            <div className="cart-item" key={item.product_id}>
+                            <div className="cart-item" key={item.id}>
                                 <img src={item.images && item.images[0] ? item.images[0] : item.image} alt={item.name} className="cart-item-image" />
                                 <div className="cart-item-info">
                                     <h4 className="cart-item-title">{item.name}</h4>
@@ -67,11 +67,11 @@ const CartSidebar = ({ onNavigate }) => {
                                     
                                     <div className="cart-item-actions">
                                         <div className="quantity-controls">
-                                            <button onClick={() => updateQuantity(item.product_id, item.quantity - 1)}>-</button>
+                                            <button onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
                                             <span>{item.quantity}</span>
-                                            <button onClick={() => updateQuantity(item.product_id, item.quantity + 1)}>+</button>
+                                            <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
                                         </div>
-                                        <button className="cart-item-remove" onClick={() => removeFromCart(item.product_id)}>Remove</button>
+                                        <button className="cart-item-remove" onClick={() => removeFromCart(item.id)}>Remove</button>
                                     </div>
                                 </div>
                             </div>
