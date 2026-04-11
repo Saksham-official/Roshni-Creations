@@ -1,20 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
+import { useCart } from '../context/CartContext';
+import { initiatePayment } from '../utils/payment';
 import './ProductDetail.css';
 
-const loadRazorpayScript = () => {
-  return new Promise((resolve) => {
-    const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.onload = () => resolve(true);
-    script.onerror = () => resolve(false);
-    document.body.appendChild(script);
-  });
-};
-
-const ProductDetail = ({ product, onNavigate, logo, onAddToCart }) => {
+const ProductDetail = ({ product, onNavigate, logo }) => {
   const [activeImage, setActiveImage] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
   const containerRef = useRef(null);
 
   useGSAP(() => {
@@ -29,36 +23,13 @@ const ProductDetail = ({ product, onNavigate, logo, onAddToCart }) => {
     );
   }, [product]);
 
-  const handlePayment = async () => {
-    const res = await loadRazorpayScript();
-
-    if (!res) {
-      alert("Razorpay SDK failed to load. Are you online?");
-      return;
-    }
-
-    const options = {
-      key: "rzp_test_Sc7NXcTnAZCMkn", // Test Key ID provided
-      amount: product.price * 100, // Amount is in currency subunits (paise)
-      currency: "INR",
-      name: "Roshni Creations",
+  const handlePayment = () => {
+    initiatePayment({
+      amount: product.price,
       description: `Purchase ${product.name}`,
-      image: logo || "https://i.imgur.com/3g7nmJC.png", // Use actual logo
-      handler: function (response) {
-        alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
-      },
-      prefill: {
-        name: "Hackathon Judge",
-        email: "judge@hackathon.com",
-        contact: "9999999999",
-      },
-      theme: {
-        color: "#D1B88A", // Match the elegant gold theme
-      },
-    };
-
-    const paymentObject = new window.Razorpay(options);
-    paymentObject.open();
+      items: [product.name],
+      onSuccess: () => onNavigate('shop')
+    });
   };
 
   if (!product) return null;
@@ -98,14 +69,30 @@ const ProductDetail = ({ product, onNavigate, logo, onAddToCart }) => {
             ₹{product.price.toLocaleString('en-IN')}
             <span className="product-detail-original-price">₹{(product.price * 1.25).toLocaleString('en-IN')}</span>
           </div>
+
+          <div className="product-quantity-selector info-animate" style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '1.5rem', marginBottom: '1.5rem' }}>
+            <span style={{ fontWeight: 500, fontFamily: 'var(--font-sans)', color: 'var(--text-secondary)' }}>Quantity:</span>
+            <div className="quantity-controls" style={{ border: '1px solid var(--primary-gold)', borderRadius: '50px', padding: '0.4rem 0.8rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <button 
+                onClick={() => setQuantity(Math.max(1, quantity - 1))} 
+                style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: '1.2rem', display: 'flex', alignItems: 'center', color: 'var(--text-primary)' }}>-</button>
+              <span style={{ fontWeight: 600, minWidth: '20px', textAlign: 'center' }}>{quantity}</span>
+              <button 
+                onClick={() => setQuantity(quantity + 1)} 
+                style={{ background: 'transparent', border: 'none', cursor: 'pointer', fontSize: '1.2rem', display: 'flex', alignItems: 'center', color: 'var(--text-primary)' }}>+</button>
+            </div>
+          </div>
           
           <p className="product-description info-animate">
             A brilliant masterpiece from our elite signature collection. This bespoke piece embodies the fusion of classic heritage and contemporary minimalism. Handcrafted by master artisans to celebrate your precious moments.
           </p>
 
-          <div className="action-buttons info-animate">
-            <button className="btn btn-outline btn-large" onClick={() => onAddToCart && onAddToCart(product)}>Add to Cart</button>
-            <button className="btn btn-primary btn-large" onClick={handlePayment}>Buy Now</button>
+          <div className="action-buttons info-animate" style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', marginBottom: '2rem' }}>
+            <div style={{ display: 'flex', gap: '1rem', width: '100%' }}>
+              <button className="btn btn-primary btn-large" style={{flex: 1}} onClick={() => addToCart(product, quantity)}>Add to Cart</button>
+              <button className="btn btn-outline btn-large" style={{flex: 1}} onClick={handlePayment}>Buy Now</button>
+            </div>
+            <button className="btn btn-text btn-large" style={{ width: '100%', border: '1px dashed var(--primary-gold)', background: 'transparent' }}>✦ Try at Home Free</button>
           </div>
 
           <div className="trust-badges info-animate">
