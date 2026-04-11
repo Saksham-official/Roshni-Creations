@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
 
 const Navbar = ({ onNavigate, onSearchClick, logo }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { getCartCount, setIsCartOpen } = useCart();
+  const { user, logoutUser } = useAuth();
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -52,10 +54,18 @@ const Navbar = ({ onNavigate, onSearchClick, logo }) => {
               {getCartCount() > 0 && <span className="cart-badge">{getCartCount()}</span>}
             </button>
             
-            {/* Apple-style 'Buy' button highlight */}
-            <button className="btn btn-buy hide-mobile" onClick={() => handleNavClick('shop')}>
-              Shop Now
-            </button>
+            {user ? (
+               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }} className="hide-mobile">
+                 <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Hi, {user.role === 'admin' ? 'Admin' : 'Customer'}</span>
+                 <button className="btn btn-outline" onClick={logoutUser} style={{ padding: '0.5rem 1rem' }}>
+                   Logout
+                 </button>
+               </div>
+            ) : (
+               <button className="btn btn-buy hide-mobile" onClick={() => handleNavClick('auth')}>
+                 Login / Register
+               </button>
+            )}
 
             <button className="hamburger-btn" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
               <div className={`hamburger-line ${isMobileMenuOpen ? 'open' : ''}`}></div>

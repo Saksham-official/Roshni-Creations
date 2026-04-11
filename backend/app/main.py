@@ -1,40 +1,81 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from .database import products_collection, cart_collection
-from .models import CartItem, ProductModel
+from .database import products_collection, cart_collection, users_collection
+from .models import CartItem, ProductModel, UserCreate, UserLogin, UserResponse
+from passlib.context import CryptContext
 import json
 import os
 
 app = FastAPI()
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# VERY IMPORTANT: This allows your React frontend to talk to your Python backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # In production, replace with your frontend URL
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.post("/register", response_model=UserResponse)
+async def register(user: UserCreate):
+    existing = await users_collection.find_one({"email": user.email})
+    if existing:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    
+    hashed_password = pwd_context.hash(user.password)
+    user_dict = user.dict()
+    user_dict["password"] = hashed_password
+    
+    result = await users_collection.insert_one(user_dict)
+    return {"id": str(result.inserted_id), "email": user.email, "role": user.role}
+
+@app.post("/login", response_model=UserResponse)
+async def login(user: UserLogin):
+    db_user = await users_collection.find_one({"email": user.email})
+    if not db_user or not pwd_context.verify(user.password, db_user["password"]):
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    
+    return {"id": str(db_user["_id"]), "email": db_user["email"], "role": db_user.get("role", "customer")}
 
 @app.get("/products")
 async def get_products():
     products = []
     async for product in products_collection.find():
-        # Convert MongoDB _id to string for JSON compatibility
         product["_id"] = str(product["_id"])
         products.append(product)
     return products
 
-@app.get("/cart")
-async def get_cart():
+@app.get("/cart/{user_id}")
+async def get_cart(user_id: str):
     items = []
-    async for item in cart_collection.find():
+    async for item in cart_collection.find({"user_id": user_id}):
         item["_id"] = str(item["_id"])
         items.append(item)
     return items
 
 @app.post("/cart")
 async def add_to_cart(item: CartItem):
-    await cart_collection.insert_one(item.dict())
+    existing = await cart_collection.find_one({"user_id": item.user_id, "product_id": item.product_id})
+    if existing:
+        await cart_collection.update_one(
+            {"_id": existing["_id"]},
+            {"$inc": {"quantity": item.quantity}}
+        )
+    else:
+        await cart_collection.insert_one(item.dict())
+    return {"status": "success"}
+
+@app.delete("/cart/{user_id}/{product_id}")
+async def remove_from_cart(user_id: str, product_id: str):
+    await cart_collection.delete_one({"user_id": user_id, "product_id": product_id})
+    return {"status": "success"}
+
+@app.put("/cart/{user_id}/{product_id}")
+async def update_cart_quantity(user_id: str, product_id: str, payload: dict):
+    await cart_collection.update_one(
+        {"user_id": user_id, "product_id": product_id},
+        {"$set": {"quantity": payload.get("quantity", 1)}}
+    )
     return {"status": "success"}
 
 @app.post("/seed")

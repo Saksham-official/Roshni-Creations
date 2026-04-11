@@ -7,3 +7,4 @@ client = AsyncIOMotorClient(MONGO_DETAILS)
 database = client.roshni_creations
 products_collection = database.get_collection("products")
 cart_collection = database.get_collection("cart")
+users_collection = database.get_collection("users")

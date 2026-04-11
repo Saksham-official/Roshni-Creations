@@ -9,6 +9,7 @@ import ProductCard from './components/ProductCard';
 import ProductDetail from './components/ProductDetail';
 import Footer from './components/Footer';
 import CartSidebar from './components/CartSidebar';
+import AuthPage from './components/AuthPage';
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('home');
@@ -197,6 +198,10 @@ const App = () => {
         {currentPage === 'quiz' && (
           <div className="animate-fade-in"><Quiz products={products} onNavigate={handleNavigate} onAddToCart={handleAddToCart} /></div>
         )}
+
+        {currentPage === 'auth' && (
+          <AuthPage onNavigate={handleNavigate} />
+        )}
       </main>
 
       <Footer />
@@ -208,7 +213,7 @@ const App = () => {
         onNavigate={handleNavigate}
       />
       
-      <CartSidebar />
+      <CartSidebar onNavigate={handleNavigate} />
     </div>
   );
 };
