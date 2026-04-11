@@ -22,55 +22,28 @@ const App = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedProductId, setSelectedProductId] = useState(null);
 
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState([]); // kept for Navbar compat (will mirror CartContext)
 
-  // Fetch products, cart, and logo
+  // Fetch products and logo only — cart is managed by CartContext per user
   useEffect(() => {
     const loadData = async () => {
       try {
         const prodRes = await fetch('http://localhost:8000/products');
-        const cartRes = await fetch('http://localhost:8000/cart');
-        
-        if (!prodRes.ok) throw new Error('Database not connected');
-        
+        if (!prodRes.ok) throw new Error('Backend not reachable');
         const productsData = await prodRes.json();
-        const cartData = cartRes.ok ? await cartRes.json() : [];
-
         setProducts(productsData || []);
-        setCartItems(cartData || []);
         setLogo("https://raw.githubusercontent.com/SatyawanPanchal/roshni_creations_assets_ssh01/refs/heads/main/assets/RoshniCreationsLogo.webp");
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching from database:', error);
+        console.error('Error fetching products:', error);
         setLoading(false);
       }
     };
     loadData();
   }, []);
 
-  const handleAddToCart = async (product) => {
-    const cartItem = {
-      product_id: product.id,
-      name: product.name,
-      price: product.price,
-      quantity: 1,
-      image: product.images[0] || null
-    };
+  // Cart is fully managed by CartContext — no local handleAddToCart needed
 
-    try {
-      const res = await fetch('http://localhost:8000/cart', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(cartItem)
-      });
-      if (res.ok) {
-        console.log("Item added to database cart");
-        setCartItems(prev => [...prev, cartItem]); // Optimistic update
-      }
-    } catch(err) {
-      console.error("Failed to add to cart:", err);
-    }
-  };
 
   const handleNavigate = (page, params = {}) => {
     setCurrentPage(page);
@@ -91,7 +64,7 @@ const App = () => {
 
   return (
     <div className="app">
-      <Navbar onNavigate={handleNavigate} onSearchClick={() => setIsSearchOpen(true)} logo={logo} cartCount={cartItems.length} />
+      <Navbar onNavigate={handleNavigate} onSearchClick={() => setIsSearchOpen(true)} logo={logo} />
       
       <main>
         {currentPage === 'home' && (
@@ -117,7 +90,6 @@ const App = () => {
                       product={product} 
                       index={idx} 
                       onClick={() => handleNavigate('product', { productId: product.id })} 
-                      onAddToCart={handleAddToCart}
                     />
                   ))}
                 </div>
@@ -167,7 +139,6 @@ const App = () => {
                     product={product} 
                     index={idx % 4} 
                     onClick={() => handleNavigate('product', { productId: product.id })}
-                    onAddToCart={handleAddToCart}
                   />
                 ))}
                 {filteredProducts.length === 0 && (
@@ -186,7 +157,6 @@ const App = () => {
               product={products.find(p => p.id === selectedProductId)} 
               onNavigate={handleNavigate}
               logo={logo}
-              onAddToCart={handleAddToCart}
             />
           </div>
         )}
@@ -196,7 +166,7 @@ const App = () => {
         )}
         
         {currentPage === 'quiz' && (
-          <div className="animate-fade-in"><Quiz products={products} onNavigate={handleNavigate} onAddToCart={handleAddToCart} /></div>
+          <div className="animate-fade-in"><Quiz products={products} onNavigate={handleNavigate} /></div>
         )}
 
         {currentPage === 'auth' && (

@@ -16,6 +16,11 @@ export const initiatePayment = async ({ amount, description, items, onSuccess, o
         return;
     }
 
+    // Get logged-in user info
+    const storedUser = localStorage.getItem('roshni_user');
+    const userEmail = storedUser ? JSON.parse(storedUser).email : 'guest@roshnijewels.com';
+    const userName = storedUser ? JSON.parse(storedUser).email.split('@')[0] : 'Guest';
+
     const options = {
         key: "rzp_test_Sc7NXcTnAZCMkn",
         amount: amount * 100,
@@ -33,7 +38,7 @@ export const initiatePayment = async ({ amount, description, items, onSuccess, o
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        email: 'judge@hackathon.com',
+                        email: userEmail,
                         paymentId: paymentId,
                         orderDetails: {
                             items: items || [],
@@ -52,8 +57,8 @@ export const initiatePayment = async ({ amount, description, items, onSuccess, o
             if (onSuccess) onSuccess(paymentId);
         },
         prefill: {
-            name: "Hackathon Judge",
-            email: "judge@hackathon.com",
+            name: userName,
+            email: userEmail,
             contact: "9999999999",
         },
         theme: { color: "#D1B88A" },

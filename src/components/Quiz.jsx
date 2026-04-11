@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import { useCart } from '../context/CartContext';
 import './Quiz.css';
 import ProductCard from './ProductCard';
 
-const Quiz = ({ products, onNavigate, onAddToCart }) => {
+const Quiz = ({ products, onNavigate }) => {
   const [step, setStep] = useState(1);
   const [answers, setAnswers] = useState({});
   const [recommendedProduct, setRecommendedProduct] = useState(null);
-
+  const { addToCart } = useCart();
   const containerRef = useScrollReveal();
 
   const questions = [
@@ -81,10 +82,10 @@ const Quiz = ({ products, onNavigate, onAddToCart }) => {
               <h2 className="section-title">Your Perfect Match</h2>
               <p className="section-subtitle">Based on your choices, we highly recommend this stunning piece.</p>
               <div className="recommended-card-wrapper">
-                <ProductCard product={recommendedProduct} onAddToCart={onAddToCart} onClick={() => onNavigate('product', { productId: recommendedProduct.id })} />
+                <ProductCard product={recommendedProduct} onClick={() => onNavigate('product', { productId: recommendedProduct.id })} />
               </div>
               <div className="quiz-actions">
-                <button className="btn btn-primary" onClick={() => { onAddToCart && onAddToCart(recommendedProduct); onNavigate('shop'); }}>Add to Cart & Continue</button>
+                <button className="btn btn-primary" onClick={() => { addToCart(recommendedProduct, 1); onNavigate('shop'); }}>Add to Cart & Continue</button>
                 <button className="btn btn-outline" onClick={() => { setStep(1); setRecommendedProduct(null); }}>Retake Quiz</button>
               </div>
             </div>
