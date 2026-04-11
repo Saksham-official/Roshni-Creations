@@ -1,0 +1,80 @@
+import React, { useEffect } from 'react';
+import { useCart } from '../context/CartContext';
+import './CartSidebar.css';
+
+const CartSidebar = () => {
+    const { cart, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart, getCartTotal, clearCart } = useCart();
+
+    // Prevent body scroll when cart is open
+    useEffect(() => {
+        if (isCartOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => document.body.style.overflow = 'unset';
+    }, [isCartOpen]);
+
+    const handleCheckout = () => {
+        if (cart.length === 0) return;
+        alert(`Checkout triggered for ₹${getCartTotal().toLocaleString('en-IN')}`);
+        clearCart();
+        setIsCartOpen(false);
+    };
+
+    return (
+        <>
+            {isCartOpen && <div className="cart-overlay animate-fade-in" onClick={() => setIsCartOpen(false)}></div>}
+            
+            <div className={`cart-sidebar ${isCartOpen ? 'open' : ''}`}>
+                <div className="cart-header">
+                    <h2>Your Cart</h2>
+                    <button className="cart-close-btn" onClick={() => setIsCartOpen(false)}>✕</button>
+                </div>
+                
+                <div className="cart-items">
+                    {cart.length === 0 ? (
+                        <div className="empty-cart">
+                            <p>Your cart is empty.</p>
+                            <button className="btn btn-outline" onClick={() => setIsCartOpen(false)} style={{marginTop: '1rem'}}>Continue Shopping</button>
+                        </div>
+                    ) : (
+                        cart.map((item) => (
+                            <div className="cart-item" key={item.id}>
+                                <img src={item.images && item.images[0] ? item.images[0] : item.image} alt={item.name} className="cart-item-image" />
+                                <div className="cart-item-info">
+                                    <h4 className="cart-item-title">{item.name}</h4>
+                                    <p className="cart-item-price">₹{item.price.toLocaleString('en-IN')}</p>
+                                    
+                                    <div className="cart-item-actions">
+                                        <div className="quantity-controls">
+                                            <button onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
+                                            <span>{item.quantity}</span>
+                                            <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
+                                        </div>
+                                        <button className="cart-item-remove" onClick={() => removeFromCart(item.id)}>Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    )}
+                </div>
+
+                {cart.length > 0 && (
+                    <div className="cart-footer">
+                        <div className="cart-total">
+                            <span>Subtotal:</span>
+                            <span className="cart-total-price">₹{getCartTotal().toLocaleString('en-IN')}</span>
+                        </div>
+                        <p className="cart-tax-note">Taxes & shipping calculated at checkout.</p>
+                        <button className="btn btn-primary btn-full-width" onClick={handleCheckout}>
+                            Checkout • ₹{getCartTotal().toLocaleString('en-IN')}
+                        </button>
+                    </div>
+                )}
+            </div>
+        </>
+    );
+};
+
+export default CartSidebar;

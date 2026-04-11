@@ -8,6 +8,7 @@ import SearchModal from './components/SearchModal';
 import ProductCard from './components/ProductCard';
 import ProductDetail from './components/ProductDetail';
 import Footer from './components/Footer';
+import CartSidebar from './components/CartSidebar';
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('home');
@@ -170,6 +171,8 @@ const App = () => {
         products={products}
         onNavigate={handleNavigate}
       />
+      
+      <CartSidebar />
     </div>
   );
 };
