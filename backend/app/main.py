@@ -2,12 +2,17 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from .database import products_collection, cart_collection, users_collection
 from .models import CartItem, ProductModel, UserCreate, UserLogin, UserResponse
-from passlib.context import CryptContext
+import bcrypt
 import json
 import os
 
 app = FastAPI()
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def hash_password(password: str) -> str:
+    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+
+def verify_password(plain: str, hashed: str) -> bool:
+    return bcrypt.checkpw(plain.encode("utf-8"), hashed.encode("utf-8"))
 
 app.add_middleware(
     CORSMiddleware,
@@ -22,7 +27,7 @@ async def register(user: UserCreate):
     if existing:
         raise HTTPException(status_code=400, detail="Email already registered")
     
-    hashed_password = pwd_context.hash(user.password)
+    hashed_password = hash_password(user.password)
     user_dict = user.dict()
     user_dict["password"] = hashed_password
     
@@ -32,7 +37,7 @@ async def register(user: UserCreate):
 @app.post("/login", response_model=UserResponse)
 async def login(user: UserLogin):
     db_user = await users_collection.find_one({"email": user.email})
-    if not db_user or not pwd_context.verify(user.password, db_user["password"]):
+    if not db_user or not verify_password(user.password, db_user["password"]):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
     return {"id": str(db_user["_id"]), "email": db_user["email"], "role": db_user.get("role", "customer")}
