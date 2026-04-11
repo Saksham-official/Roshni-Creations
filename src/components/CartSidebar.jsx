@@ -8,14 +8,19 @@ const CartSidebar = ({ onNavigate }) => {
     const { cart, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart, getCartTotal, clearCart } = useCart();
     const { user } = useAuth();
 
-    // Prevent body scroll when cart is open
     useEffect(() => {
         if (isCartOpen) {
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
             document.body.style.overflow = 'hidden';
+            document.body.style.paddingRight = `${scrollbarWidth}px`;
         } else {
             document.body.style.overflow = 'unset';
+            document.body.style.paddingRight = '0px';
         }
-        return () => document.body.style.overflow = 'unset';
+        return () => {
+            document.body.style.overflow = 'unset';
+            document.body.style.paddingRight = '0px';
+        };
     }, [isCartOpen]);
 
     const handleCheckout = () => {

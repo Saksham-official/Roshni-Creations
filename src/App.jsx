@@ -81,11 +81,11 @@ const App = () => {
             <div className="page-transition animate-fade-in">
               <Hero onNavigate={handleNavigate} isVisible={!showIntro} />
               
-              <section className="section" style={{backgroundColor: 'var(--bg-white)'}}>
+              <section className="section" style={{backgroundColor: '#FFF4CC'}}>
                 <div className="container">
                   <div className="animate-fade-in">
-                    <h2 className="section-title" style={{fontFamily: 'var(--font-serif)', fontSize: '3.5rem', color: '#D4AF37'}}>Our Best Sellers</h2>
-                    <p className="section-subtitle">Discover our most loved and frequently purchased exquisite pieces.</p>
+                    <h2 className="section-title" style={{fontFamily: 'var(--font-serif)', fontSize: '3.5rem', color: 'var(--brand-maroon)'}}>Our Best Sellers</h2>
+                    <p className="section-subtitle" style={{color: 'var(--brand-maroon)'}}>Discover our most loved and frequently purchased exquisite pieces.</p>
                   </div>
                   <div style={{
                     display: 'grid',
