@@ -79,7 +79,7 @@ const CartSidebar = ({ onNavigate }) => {
                     )}
                 </div>
 
-                {cart.length > 0 && (
+                {user && cart.length > 0 && (
                     <div className="cart-footer">
                         <div className="cart-total">
                             <span>Subtotal:</span>

@@ -24,7 +24,7 @@ const App = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedProductId, setSelectedProductId] = useState(null);
 
-  // Fetch products and logo
+  // Fetch products and logo - Using production /api routes
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -151,7 +151,7 @@ const App = () => {
 
         <Footer />
         <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} products={products} onNavigate={handleNavigate} />
-        <CartSidebar />
+        <CartSidebar onNavigate={handleNavigate} />
       </div>
     </div>
   );
