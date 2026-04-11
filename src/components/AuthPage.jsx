@@ -17,8 +17,8 @@ const AuthPage = ({ onNavigate }) => {
     setLoading(true);
 
     const endpoint = isLogin
-      ? 'http://localhost:8000/login'
-      : 'http://localhost:8000/register';
+      ? '/api/login'
+      : '/api/register';
 
     const payload = isLogin
       ? { email, password }
