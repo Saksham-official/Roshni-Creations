@@ -55,9 +55,9 @@ const Navbar = ({ onNavigate, onSearchClick, logo }) => {
             </button>
             
             {user ? (
-               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }} className="hide-mobile">
-                 <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Hi, {user.role === 'admin' ? 'Admin' : 'Customer'}</span>
-                 <button className="btn btn-outline" onClick={logoutUser} style={{ padding: '0.5rem 1rem' }}>
+               <div className="user-actions hide-mobile">
+                 <span className="user-greeting">Hi, {user.role === 'admin' ? 'Admin' : 'Customer'}</span>
+                 <button className="btn btn-outline nav-logout-btn" onClick={logoutUser}>
                    Logout
                  </button>
                </div>

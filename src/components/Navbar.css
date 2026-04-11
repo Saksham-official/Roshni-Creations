@@ -113,6 +113,27 @@
   height: 17px;
 }
 
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 100%;
+}
+
+.user-greeting {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  line-height: 1;
+}
+
+.nav-logout-btn {
+  padding: 6px 14px;
+  font-size: 12px;
+  border-radius: 14px;
+  line-height: 1;
+}
+
 .cart-btn {
   position: relative;
 }
