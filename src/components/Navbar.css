@@ -184,7 +184,15 @@
   width: 18px;
   height: 1.5px;
   background-color: #1d1d1f;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hamburger-line.open:nth-child(1) {
+  transform: translateY(2.75px) rotate(45deg);
+}
+
+.hamburger-line.open:nth-child(2) {
+  transform: translateY(-2.75px) rotate(-45deg);
 }
 
 /* Mobile Adjustments */
@@ -199,7 +207,9 @@
     flex-direction: column;
     gap: 0;
     overflow: hidden;
-    transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     margin: 0;
     z-index: 1;
   }
@@ -207,6 +217,8 @@
   .nav-links.mobile-open {
     height: 100vh;
     padding: 24px 40px;
+    visibility: visible;
+    pointer-events: all;
   }
 
   .nav-links li {

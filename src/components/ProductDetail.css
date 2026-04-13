@@ -201,10 +201,19 @@
   }
   
   .product-detail-title {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
   }
   
   .action-buttons {
     flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .product-detail-title {
+    font-size: 1.8rem;
+  }
+  .product-detail-price {
+    font-size: 1.5rem;
   }
 }
