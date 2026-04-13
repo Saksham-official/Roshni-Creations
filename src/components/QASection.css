@@ -1,8 +1,15 @@
 .qa-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 2.5rem;
-  margin-top: 4rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+@media (max-width: 768px) {
+  .qa-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
 }
 
 .qa-card {

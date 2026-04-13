@@ -84,12 +84,12 @@ const App = () => {
               <section className="section" style={{backgroundColor: '#FFF4CC'}}>
                 <div className="container">
                   <div className="animate-fade-in">
-                    <h2 className="section-title" style={{fontFamily: 'var(--font-serif)', fontSize: '3.5rem', color: 'var(--brand-maroon)'}}>Our Best Sellers</h2>
+                    <h2 className="section-title" style={{fontFamily: 'var(--font-serif)', color: 'var(--brand-maroon)'}}>Our Best Sellers</h2>
                     <p className="section-subtitle" style={{color: 'var(--brand-maroon)'}}>Discover our most loved and frequently purchased exquisite pieces.</p>
                   </div>
                   <div style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
                     gap: '2.5rem',
                     marginTop: '4rem'
                   }}>
@@ -114,7 +114,7 @@ const App = () => {
           {currentPage === 'shop' && (
             <div className="section animate-fade-in" style={{paddingTop: 'calc(var(--nav-height) + 5rem)'}}>
               <div className="container">
-                <h2 className="section-title" style={{fontFamily: 'var(--font-serif)', fontSize: '3.5rem', color: 'var(--brand-maroon)'}}>Our Collections</h2>
+                <h2 className="section-title" style={{fontFamily: 'var(--font-serif)', color: 'var(--brand-maroon)'}}>Our Collections</h2>
                 <div style={{display: 'flex', gap: '1rem', justifyContent: 'center', marginBottom: '4rem', flexWrap: 'wrap'}}>
                   {categories.map(cat => (
                     <button key={cat} className="btn" 
@@ -131,7 +131,7 @@ const App = () => {
                     </button>
                   ))}
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2.5rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '2.5rem' }}>
                   {filteredProducts.map((product, idx) => (
                     <ProductCard key={product.id} product={product} index={idx % 4} onClick={() => handleNavigate('product', { productId: product.id })} />
                   ))}
