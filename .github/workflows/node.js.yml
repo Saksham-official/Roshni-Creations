@@ -12,7 +12,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x]   # drop 22.x for now for stability
+        # Vite 7+ requires Node.js 20.19+ or 22.12+.[web:32][web:39]
+        node-version: [ "20.19.0", "22.12.0" ]
 
     steps:
       - name: Checkout repository
@@ -21,11 +22,12 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
+          # Use exact versions that satisfy Vite's engine requirement.[web:32][web:37]
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'   # uses package-lock.json for caching[web:14][web:18]
+          cache: 'npm'
 
       - name: Install dependencies
-        # Use ci only if you have package-lock.json; else fall back to install
+        # Prefer npm ci when lockfile exists; fall back to install otherwise.[web:22]
         run: |
           if [ -f package-lock.json ]; then
             npm ci
@@ -33,8 +35,10 @@ jobs:
             npm install
           fi
 
-      - name: Build (if script exists)
-        run: npm run build --if-present
+      - name: Build
+        # Your project uses Vite, so a build script must exist and should be required.
+        run: npm run build
 
       - name: Test (if script exists)
+        # This will run tests only if you define a "test" script in package.json.
         run: npm test --if-present
